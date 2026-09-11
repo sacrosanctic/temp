@@ -17,4 +17,4 @@ FROM gcr.io/distroless/nodejs22-debian13 AS production
 ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=build /workbench/build ./dist
-CMD [ "index.js" ]
+CMD [ "dist/index.js" ]
