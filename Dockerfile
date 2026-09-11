@@ -17,5 +17,4 @@ FROM gcr.io/distroless/nodejs22-debian13 AS production
 ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=build /workbench/dist ./dist
-COPY --from=git /artifact/usr/ /usr/
 CMD [ "./dist/index.mjs" ]
