@@ -3,6 +3,8 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
+    environment:
+      - BUILD_VERSION=${BUILD_VERSION}
     restart: unless-stopped
 
   caddy:
