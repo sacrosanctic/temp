@@ -14,7 +14,7 @@ BASE=$(git merge-base @ "$UPSTREAM")
 if [ "$LOCAL" = "$REMOTE" ]; then
   if [ -z "$(docker ps -qf "name=server")" ]; then
     echo "$(date --utc +%FT%TZ): No server running. Deploying..."
-    ./scripts/deploy.sh
+    docker compose up -d
   else
     echo "$(date --utc +%FT%TZ): No changes detected"
   fi
