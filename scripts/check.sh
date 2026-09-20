@@ -9,13 +9,18 @@ REMOTE=$(git rev-parse "$UPSTREAM")
 BASE=$(git merge-base @ "$UPSTREAM")
 
 if [ $LOCAL = $REMOTE ]; then
-  echo "$(date --utc +%FT%TZ): No changes detected in git"
+  if [ -z "$(docker ps -qf "name=server")" ]; then
+    echo "$(date --utc +%FT%TZ): No server running. Deploying..."
+    ./scripts/deploy.sh
+  else
+    echo "$(date --utc +%FT%TZ): No changes detected"
+  fi
 elif [ $LOCAL = $BASE ]; then
   BUILD_VERSION=$(git rev-parse HEAD)
   echo "$(date --utc +%FT%TZ): Changes detected, deploying new version: $BUILD_VERSION"
   ./scripts/deploy.sh
 elif [ $REMOTE = $BASE ]; then
-  echo "$(date --utc +%FT%TZ): Local changes  detected, stashing"
+  echo "$(date --utc +%FT%TZ): Local changes detected, stashing"
   git stash
   ./scripts/deploy.sh
 else
