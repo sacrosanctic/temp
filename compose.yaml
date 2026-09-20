@@ -4,7 +4,7 @@ services:
       dockerfile: Dockerfile
       context: .
     environment:
-      - BUILD_VERSION=${BUILD_VERSION}
+      - BUILD_VERSION=${BUILD_VERSION:-dev}
     restart: unless-stopped
 
   caddy:
