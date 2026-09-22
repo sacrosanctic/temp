@@ -28,4 +28,5 @@ elif [ "$REMOTE" = "$BASE" ]; then
   ./scripts/deploy.sh
 else
   echo "$(date --utc +%FT%TZ): Git is diverged, this is unexpected."
+  exit 1
 fi
