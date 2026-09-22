@@ -5,10 +5,11 @@ FROM ghcr.io/pnpm/pnpm:11 AS build
 
 WORKDIR /workbench
 COPY package.json pnpm-lock.yaml ./
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm ci
+# Didn't use `pnpm ci`. Instead we want to skip the `prepare` script since it needs vite.config.ts, which is copied later.
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts
 
 COPY . .
-RUN pnpm run build
+RUN pnpm run prepare && pnpm run build
 
 # -----
 # Stage 2: Production
