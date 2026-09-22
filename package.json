@@ -16,6 +16,7 @@
 		}
 	},
 	"scripts": {
+		"rebuild-host": "sudo nixos-rebuild switch --flake .#azure --target-host sparkplus.app",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
