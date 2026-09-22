@@ -3,7 +3,7 @@
 The NixOS configuration for the deployment host.
 
 ```sh
-sudo nixos-rebuild switch --flake .#azure`
+sudo nixos-rebuild switch --flake .#azure
 ```
 
 ## Layout
@@ -41,6 +41,31 @@ Delete temp keys
 ```sh
 rm ./key.pem
 ```
+
+setup app
+
+`nix/modules/cron.nix` + `nix/modules/run.sh` run `~/app/scripts/ci.sh`
+every minute as `user.name` from `nix/config.nix` (e.g. `/home/sw/app`).
+Without this checkout cron only logs `warn: ... missing, skipping`
+to `~/cron/run.log` and nothing deploys.
+
+```sh
+ssh <user>@<ip/domain> '
+  git clone <repo-url> ~/app
+  # future private repo over SSH:
+  # git clone git@github.com:<org>/<repo>.git ~/app
+  test -x ~/app/scripts/ci.sh
+  git -C ~/app status -sb
+'
+```
+
+Notes:
+
+- Clone as `<user>`, not `root`, at exactly `~/app` (`/home/<user>/app`).
+- A plain clone is enough — `scripts/ci.sh` relies on `@{u}` upstream
+  tracking via `git fetch`; avoid `--depth` / detached checkouts that
+  break it.
+- Verify with `tail ~/cron/run.log` and `systemctl status cron`.
 
 ## Steady-state updates (already NixOS)
 
