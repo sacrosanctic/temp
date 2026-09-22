@@ -34,8 +34,14 @@
         services.openssh.enable = true;
         networking.firewall.enable = true;
 
-        # for low ram
-        zramSwap.enable = true;
+        # for low ram: 2GB zram (capped), ~230% covers 2GB on the 895Mi host
+        zramSwap = {
+          enable = true;
+          algorithm = "zstd";
+          memoryPercent = 230;
+          memoryMax = 2147483648;
+          priority = 100;
+        };
 
         users.users.root.openssh.authorizedKeys.keys = config.user.sshPublicKeys;
 

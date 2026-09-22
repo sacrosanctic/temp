@@ -3,8 +3,8 @@ set -u
 
 APP_USER="${1:?usage: run <user>}"
 HOME_DIR="/home/$APP_USER"
-LOG="$HOME_DIR/cron/run.log"
-LOCK="$HOME_DIR/cron/run.lock"
+LOG="$HOME_DIR/cron/output.log"
+LOCK="$HOME_DIR/cron/lockfile"
 TARGET="$HOME_DIR/app/scripts/ci.sh"
 
 mkdir -p "$HOME_DIR/cron"

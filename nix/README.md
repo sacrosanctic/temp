@@ -47,7 +47,7 @@ setup app
 `nix/modules/cron.nix` + `nix/modules/run.sh` run `~/app/scripts/ci.sh`
 every minute as `user.name` from `nix/config.nix` (e.g. `/home/sw/app`).
 Without this checkout cron only logs `warn: ... missing, skipping`
-to `~/cron/run.log` and nothing deploys.
+to `~/cron/output.log` and nothing deploys.
 
 ```sh
 ssh <user>@<ip/domain> '
@@ -65,7 +65,7 @@ Notes:
 - A plain clone is enough — `scripts/ci.sh` relies on `@{u}` upstream
   tracking via `git fetch`; avoid `--depth` / detached checkouts that
   break it.
-- Verify with `tail ~/cron/run.log` and `systemctl status cron`.
+- Verify with `tail ~/cron/output.log` and `systemctl status cron`.
 
 ## Steady-state updates (already NixOS)
 
